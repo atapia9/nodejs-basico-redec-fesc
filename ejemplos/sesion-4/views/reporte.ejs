@@ -1,0 +1,13 @@
+<!-- views/reporte.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head><title>Reporte de productos</title></head>
+<body>
+  <h1>Productos disponibles</h1>
+  <ul>
+    <% productos.forEach(function(p) { %>
+      <li><%= p.nombre %> — $<%= p.precio %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>
