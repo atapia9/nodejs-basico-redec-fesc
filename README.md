@@ -99,3 +99,7 @@ El texto del manual y las figuras se distribuyen bajo Creative Commons Atribuci�
 ## Contribuciones y revisión
 
 Consulta [CONTRIBUTING.md](CONTRIBUTING.md). Los pendientes y las observaciones técnicas del manual están en [docs/NOTAS_DE_REVISION.md](docs/NOTAS_DE_REVISION.md).
+
+## Plantilla del proyecto integrador
+
+Para desarrollar el proyecto integrador final (sección 10 del manual) usa la plantilla [nodejs-basico-proyecto-integrador](https://github.com/atapia9/nodejs-basico-proyecto-integrador): una API de ejemplo con Express y SQLite, pruebas, guía por sesión y lista de verificación de entrega.
