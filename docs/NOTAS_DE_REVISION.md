@@ -19,7 +19,8 @@ Este documento registra las decisiones de conversión, los pendientes y las obse
 | 4 | Visibilidad | El repositorio se crea privado. La decisión es hacerlo público al terminar; el cambio requiere una confirmación final. |
 | 5 | Clave del instructor | `evaluacion/_clave-instructor.md` está en `.gitignore`. Conservar el archivo en el equipo local; no se encuentra en GitHub. |
 | 6 | Versión de Node.js | `.nvmrc` y `engines` fijan la 24 (LTS activa el 7 de octubre de 2026, según el calendario oficial). Pasa a mantenimiento el 20 de octubre de 2026 y la versión 26 será LTS el 28 de octubre de 2026: revisar después de esa fecha. El manual usa `nvm use 24` como ejemplo. |
-| 7 | GitHub Pages | No se activó. Si se decide hacerlo: MkDocs Material con `mkdocs.yml` y un workflow de despliegue. En repositorios privados requiere un plan de GitHub de pago. |
+| 7 | Etiqueta `ubuntu-latest` | El 19 de octubre de 2026 la etiqueta `ubuntu-latest` de GitHub Actions migra a Ubuntu 26. Si algún workflow falla después de esa fecha, fijar `ubuntu-24.04` en `runs-on`. |
+| 8 | GitHub Pages | No se activó. Si se decide hacerlo: MkDocs Material con `mkdocs.yml` y un workflow de despliegue. En repositorios privados requiere un plan de GitHub de pago. |
 
 ## 3. Cómo se resolvieron los desajustes de estructura
 
@@ -104,6 +105,7 @@ Resumen: 36 bloques en el manual, 16 extraídos a `ejemplos/` (18 archivos, porq
 ## 7. Verificación de enlaces
 
 - Comprobación manual del 7 de octubre de 2026 con el endpoint oEmbed de YouTube: las 50 URLs de YouTube (47 videos y 3 listas de reproducción, incluida la lista no listada del curso) respondieron correctamente.
+- Primera ejecución de `enlaces.yml` en GitHub (8 de octubre de 2026, UTC): lychee reportó 50 enlaces correctos, 0 errores, 51 excluidos (los de YouTube, que cubre el paso oEmbed) y 1 con un esquema que no soporta (no es un error). El paso oEmbed no emitió ninguna advertencia.
 - Aun así, los videos pueden retirarse con el tiempo y varios tienen años de antigüedad, como advierte la nota de curaduría del Anexo 12. El workflow `enlaces.yml` repite la comprobación cada lunes y bajo demanda, sin bloquear, y publica un resumen.
 
 ## 8. Privacidad y publicación
