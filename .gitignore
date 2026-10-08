@@ -1,0 +1,24 @@
+# Fuentes en Word: contienen metadatos personales y, en la evaluación, la clave del instructor.
+fuentes/
+
+# Clave de respuestas de la evaluación (solo para el instructor; conservar en local).
+evaluacion/_clave-instructor.md
+
+# Node.js / npm
+node_modules/
+npm-debug.log*
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
