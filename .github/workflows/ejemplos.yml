@@ -1,0 +1,36 @@
+name: Sintaxis de ejemplos
+
+# Ejecuta "node --check" sobre los scripts de ejemplos/ con la versión de Node.js de .nvmrc.
+# Solo comprueba la sintaxis: no ejecuta los ejemplos ni instala dependencias.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ejemplos/**'
+      - '.nvmrc'
+      - 'package.json'
+      - '.github/workflows/ejemplos.yml'
+  pull_request:
+    paths:
+      - 'ejemplos/**'
+      - '.nvmrc'
+      - 'package.json'
+      - '.github/workflows/ejemplos.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-check:
+    name: node --check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - name: Versión de Node.js
+        run: node --version
+      - name: node --check en ejemplos/
+        run: npm run check:ejemplos
