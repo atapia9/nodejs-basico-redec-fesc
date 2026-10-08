@@ -1,0 +1,68 @@
+name: Verificación de enlaces
+
+# Revisa los enlaces del manual cada lunes y bajo demanda. NO bloquea: aunque haya enlaces
+# rotos el job termina en verde y publica un resumen (pestaña "Summary" de la ejecución).
+#
+# - lychee revisa los enlaces generales (documentación, referencias, archivos y figuras).
+# - YouTube se excluye de lychee, que da falsos positivos y no detecta videos retirados
+#   (YouTube responde 200 aunque el video ya no exista). Para los videos se consulta el
+#   endpoint oEmbed de YouTube: responde 200 si el video existe y otro código si se retiró.
+on:
+  schedule:
+    - cron: '0 14 * * 1' # lunes, 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  enlaces:
+    name: Enlaces
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Enlaces generales (lychee)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --max-retries 2
+            --retry-wait-time 5
+            --timeout 30
+            --accept '100..=103,200..=299,429'
+            --exclude '^https?://((www|m)\.)?(youtube\.com|youtu\.be)/'
+            --exclude '^https?://(localhost|127\.0\.0\.1)'
+            'README.md' 'CONTRIBUTING.md' 'docs/**/*.md'
+          fail: false
+          jobSummary: true
+
+      - name: Videos de YouTube (oEmbed)
+        if: always()
+        run: |
+          {
+            echo '## Videos de YouTube (oEmbed)'
+            echo
+            echo '| Estado | Enlace |'
+            echo '| --- | --- |'
+          } >> "$GITHUB_STEP_SUMMARY"
+          revisar=0
+          total=0
+          while IFS= read -r url; do
+            total=$((total + 1))
+            codigo=$(curl -s -o /dev/null -w '%{http_code}' -G 'https://www.youtube.com/oembed' \
+              --data-urlencode "url=${url}" --data-urlencode 'format=json' || true)
+            if [ "$codigo" = '200' ]; then
+              estado='OK'
+            else
+              estado="REVISAR (HTTP ${codigo})"
+              revisar=$((revisar + 1))
+              echo "::warning::Revisar enlace de YouTube (HTTP ${codigo}): ${url}"
+            fi
+            echo "| ${estado} | ${url} |" >> "$GITHUB_STEP_SUMMARY"
+            sleep 0.3
+          done < <(grep -ohE 'https?://(www\.|m\.)?(youtube\.com|youtu\.be)/[^) ]+' docs/12-videos-de-apoyo.md | sort -u)
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo "${total} enlaces revisados, ${revisar} por revisar." >> "$GITHUB_STEP_SUMMARY"
+          exit 0
