@@ -1,5 +1,7 @@
 # NODE.JS BÁSICO
 
+[![Lint de Markdown](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/markdown-lint.yml) [![Sintaxis de ejemplos](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/ejemplos.yml/badge.svg)](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/ejemplos.yml) [![Verificación de enlaces](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/enlaces.yml/badge.svg)](https://github.com/atapia9/nodejs-basico-redec-fesc/actions/workflows/enlaces.yml)
+
 **REDEC · UNAM FES Cuautitlán**
 
 Educación Continua FESC
