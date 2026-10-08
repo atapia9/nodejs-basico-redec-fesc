@@ -1,0 +1,34 @@
+name: Lint de Markdown
+
+# Revisa el estilo del Markdown con markdownlint-cli2.
+# Las reglas están en .markdownlint-cli2.jsonc (configuración permisiva para texto en español).
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - '.markdownlint-cli2.jsonc'
+      - '.github/workflows/markdown-lint.yml'
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '.markdownlint-cli2.jsonc'
+      - '.github/workflows/markdown-lint.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    name: markdownlint-cli2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: DavidAnson/markdownlint-cli2-action@v24
+        with:
+          globs: |
+            README.md
+            CONTRIBUTING.md
+            docs/**/*.md
+            evaluacion/evaluacion-diagnostica-final.md
